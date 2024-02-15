@@ -1,25 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pipex.c                                            :+:      :+:    :+:   */
+/*   ft_strlen_till_c.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: omougel <omougel@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/02/14 18:13:01 by omougel           #+#    #+#             */
-/*   Updated: 2024/02/14 18:36:52 by omougel          ###   ########.fr       */
+/*   Created: 2023/11/28 11:42:41 by omougel           #+#    #+#             */
+/*   Updated: 2023/11/29 08:07:08 by omougel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "include/pipex.h"
+#include "../include/libft.h"
 
-int	main(int argc, char **argv, char **envp)
+size_t	ft_strlen_till_c(char const *str, char c, size_t i)
 {
-	int i;
+	size_t	count;
 
-	i = 0;
-	if (argc == 0 || argv == NULL)
+	count = 0;
+	if (!str)
 		return (0);
-	while (envp[i])
-		ft_printf("%s\n",envp[i++]);
-	return (0);
+	while (str[i] != c && str[i])
+	{
+		count++;
+		i++;
+	}
+	return (count);
 }

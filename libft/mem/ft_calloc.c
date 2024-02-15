@@ -1,25 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pipex.c                                            :+:      :+:    :+:   */
+/*   ft_calloc.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: omougel <omougel@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/02/14 18:13:01 by omougel           #+#    #+#             */
-/*   Updated: 2024/02/14 18:36:52 by omougel          ###   ########.fr       */
+/*   Created: 2023/11/09 14:55:11 by omougel           #+#    #+#             */
+/*   Updated: 2023/11/27 16:05:13 by omougel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "include/pipex.h"
+#include "../include/libft.h"
 
-int	main(int argc, char **argv, char **envp)
+void	*ft_calloc(size_t nmemb, size_t size)
 {
-	int i;
+	void	*mem;
+	size_t	tmp;
 
-	i = 0;
-	if (argc == 0 || argv == NULL)
-		return (0);
-	while (envp[i])
-		ft_printf("%s\n",envp[i++]);
-	return (0);
+	if (!nmemb && !size)
+		ft_calloc(1, 1);
+	tmp = nmemb * size;
+	if (nmemb && size)
+		if (tmp / nmemb != size)
+			return (NULL);
+	mem = malloc(nmemb * size);
+	if (!mem)
+		return (NULL);
+	ft_bzero(mem, nmemb * size);
+	return (mem);
 }

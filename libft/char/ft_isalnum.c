@@ -1,25 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pipex.c                                            :+:      :+:    :+:   */
+/*   ft_isalnum.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: omougel <omougel@student.42lyon.fr>        +#+  +:+       +#+        */
+/*   By: omougel <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/02/14 18:13:01 by omougel           #+#    #+#             */
-/*   Updated: 2024/02/14 18:36:52 by omougel          ###   ########.fr       */
+/*   Created: 2023/11/07 10:17:59 by omougel           #+#    #+#             */
+/*   Updated: 2023/11/24 16:00:42 by omougel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "include/pipex.h"
+#include "../include/libft.h"
 
-int	main(int argc, char **argv, char **envp)
+int	ft_isalnum(int c)
 {
-	int i;
-
-	i = 0;
-	if (argc == 0 || argv == NULL)
-		return (0);
-	while (envp[i])
-		ft_printf("%s\n",envp[i++]);
-	return (0);
+	return (ft_isalpha(c) || ft_isdigit(c));
 }

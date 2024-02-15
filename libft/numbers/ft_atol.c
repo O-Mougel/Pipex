@@ -1,25 +1,36 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pipex.c                                            :+:      :+:    :+:   */
+/*   ft_atol.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: omougel <omougel@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/02/14 18:13:01 by omougel           #+#    #+#             */
-/*   Updated: 2024/02/14 18:36:52 by omougel          ###   ########.fr       */
+/*   Created: 2024/01/26 12:31:28 by omougel           #+#    #+#             */
+/*   Updated: 2024/01/29 15:35:44 by omougel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "include/pipex.h"
+#include "../include/libft.h"
 
-int	main(int argc, char **argv, char **envp)
+long	ft_atol(const char *str)
 {
-	int i;
+	size_t		i;
+	int			sign;
+	long		number;
 
 	i = 0;
-	if (argc == 0 || argv == NULL)
-		return (0);
-	while (envp[i])
-		ft_printf("%s\n",envp[i++]);
-	return (0);
+	number = 0;
+	sign = 1;
+	if (str[i] == '-')
+		sign = -1;
+	if (str[i] == '+' || str[i] == '-')
+		i++;
+	while (ft_isdigit(str[i]))
+	{
+		if (number != (number * 10 + str[i] - 48) / 10)
+			return (LONG_MAX);
+		number = number * 10 + (str[i] - 48);
+		i++;
+	}
+	return (number * sign);
 }

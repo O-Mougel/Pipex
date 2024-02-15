@@ -1,25 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pipex.c                                            :+:      :+:    :+:   */
+/*   ft_strncmp.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: omougel <omougel@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/02/14 18:13:01 by omougel           #+#    #+#             */
-/*   Updated: 2024/02/14 18:36:52 by omougel          ###   ########.fr       */
+/*   Created: 2023/11/08 10:42:28 by omougel           #+#    #+#             */
+/*   Updated: 2023/11/16 16:18:32 by omougel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "include/pipex.h"
+#include "../include/libft.h"
 
-int	main(int argc, char **argv, char **envp)
+int	ft_strncmp(const char *s1, const char *s2, size_t n)
 {
-	int i;
+	unsigned const char	*ptr1;
+	unsigned const char	*ptr2;
+	size_t				i;
 
+	ptr1 = (unsigned const char *)s1;
+	ptr2 = (unsigned const char *)s2;
 	i = 0;
-	if (argc == 0 || argv == NULL)
+	if (n == 0)
 		return (0);
-	while (envp[i])
-		ft_printf("%s\n",envp[i++]);
-	return (0);
+	while (ptr1[i] == ptr2[i] && (ptr1[i] || ptr2[i]) && i + 1 < n)
+		i++;
+	return (ptr1[i] - ptr2[i]);
 }

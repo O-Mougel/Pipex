@@ -1,25 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pipex.c                                            :+:      :+:    :+:   */
+/*   ft_strrchr.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: omougel <omougel@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/02/14 18:13:01 by omougel           #+#    #+#             */
-/*   Updated: 2024/02/14 18:36:52 by omougel          ###   ########.fr       */
+/*   Created: 2023/11/08 10:33:27 by omougel           #+#    #+#             */
+/*   Updated: 2023/11/21 17:24:09 by omougel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "include/pipex.h"
+#include "../include/libft.h"
 
-int	main(int argc, char **argv, char **envp)
+char	*ft_strrchr(const char *s, int c)
 {
-	int i;
+	char	*tmp;
 
-	i = 0;
-	if (argc == 0 || argv == NULL)
-		return (0);
-	while (envp[i])
-		ft_printf("%s\n",envp[i++]);
-	return (0);
+	tmp = 0;
+	if ((unsigned char)c == 0)
+		return ((char *)s + ft_strlen(s));
+	while (*s)
+	{
+		if (*s == (unsigned char)c)
+			tmp = (char *)s;
+		s++;
+	}
+	return (tmp);
 }

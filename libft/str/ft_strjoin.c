@@ -1,25 +1,37 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pipex.c                                            :+:      :+:    :+:   */
+/*   ft_strjoin.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: omougel <omougel@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/02/14 18:13:01 by omougel           #+#    #+#             */
-/*   Updated: 2024/02/14 18:36:52 by omougel          ###   ########.fr       */
+/*   Created: 2023/11/13 10:32:04 by omougel           #+#    #+#             */
+/*   Updated: 2023/11/27 11:22:24 by omougel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "include/pipex.h"
+#include "../include/libft.h"
 
-int	main(int argc, char **argv, char **envp)
+char	*ft_strjoin(char const *s1, char const *s2)
 {
-	int i;
+	int		i;
+	char	*dest;
 
 	i = 0;
-	if (argc == 0 || argv == NULL)
-		return (0);
-	while (envp[i])
-		ft_printf("%s\n",envp[i++]);
-	return (0);
+	if (!s1 || !s2)
+		return (NULL);
+	dest = ft_calloc(ft_strlen(s1) + ft_strlen(s2) + 1, sizeof(char));
+	if (!dest)
+		return (NULL);
+	while (s1 && s1[i])
+	{
+		dest[i] = s1[i];
+		i++;
+	}
+	while (s2 && s2[i - ft_strlen(s1)])
+	{
+		dest[i] = s2[i - ft_strlen(s1)];
+		i++;
+	}
+	return (dest);
 }
