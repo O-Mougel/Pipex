@@ -6,7 +6,7 @@
 #    By: omougel <omougel@student.42lyon.fr>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/11/13 16:45:04 by omougel           #+#    #+#              #
-#    Updated: 2024/02/14 17:54:39 by omougel          ###   ########.fr        #
+#    Updated: 2024/02/15 16:11:19 by omougel          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,7 +27,6 @@ SRCS = char/ft_isalnum.c\
 			 lst/ft_lstdelone.c\
 			 lst/ft_lstiter.c\
 			 lst/ft_lstlast.c\
-			 lst/ft_lstmap.c\
 			 lst/ft_lstnew.c\
 			 lst/ft_lstsize.c\
 			 mem/ft_bzero.c\
@@ -50,6 +49,7 @@ SRCS = char/ft_isalnum.c\
 			 put.../ft_putnbr_base.c\
 			 put.../ft_putnbr_fd.c\
 			 put.../ft_putstr_fd.c\
+			 str/ft_free_arr.c\
 			 str/ft_split.c\
 			 str/ft_strchr.c\
 			 str/ft_strcmp.c\

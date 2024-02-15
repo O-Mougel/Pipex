@@ -6,14 +6,14 @@
 /*   By: omougel <omougel@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 18:14:55 by omougel           #+#    #+#             */
-/*   Updated: 2024/02/14 18:30:59 by omougel          ###   ########.fr       */
+/*   Updated: 2024/02/15 13:36:10 by omougel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PIPEX
-# define PIPEX
+#ifndef PIPEX_H
+# define PIPEX_H
 
 # include "../libft/include/libft.h"
+# include <stdio.h>
 
-
-#endif // !PIPEX
+#endif // !PIPEX_H

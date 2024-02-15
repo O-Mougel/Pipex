@@ -6,7 +6,7 @@
 /*   By: omougel <omougel@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/13 12:15:17 by omougel           #+#    #+#             */
-/*   Updated: 2024/02/14 17:57:27 by omougel          ###   ########.fr       */
+/*   Updated: 2024/02/15 16:44:20 by omougel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,10 +32,28 @@ static size_t	ft_strlen_till_c_with_i(char const *str, char c, size_t i)
 		return (0);
 	while (str[i] != c && str[i])
 	{
+		if (str[i] == '"')
+		{
+			i++;
+			count++;
+			while (str[i] != '"' && str[i])
+			{
+				i++;
+				count++;
+			}
+		}
 		count++;
 		i++;
 	}
 	return (count);
+}
+
+static size_t	ft_skip_str(const char *str, size_t i)
+{
+	i++;
+	while (str[i] != '"' && str[i])
+		i++;
+	return (i);
 }
 
 static size_t	ft_count_strs(char const *str, char c)
@@ -55,7 +73,11 @@ static size_t	ft_count_strs(char const *str, char c)
 		{
 			count++;
 			while (str[i] != c && str[i])
+			{
+				if (str[i] == '"')
+					i = ft_skip_str(str, i);
 				i++;
+			}
 		}
 		if (str[i] == c)
 			i++;

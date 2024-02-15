@@ -6,40 +6,57 @@
 #    By: omougel <omougel@student.42lyon.fr>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/01/15 17:02:16 by omougel           #+#    #+#              #
-#    Updated: 2024/01/29 15:51:25 by omougel          ###   ########.fr        #
+#    Updated: 2024/02/15 16:15:35 by omougel          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-.PHONY: all clean fclean re bonus
+.PHONY: all libft clean fclean re
 
 NAME = pipex
 
-SRCS = 
+SRCS_FILES = pipex.c
 
-BONUS_SRCS = 
+INCLUDES = include/pipex.h
 
-OBJS = $(SRCS:.c=.o)
+LIBFT_DIR = libft/
+SRCS_DIR = srcs/
+OBJS_DIR = .objects/
 
-BONUS_OBJS = $(BONUS_SRCS:.c=.o)
+SRCS = $(addprefix ${SRCS_DIR},${SRCS_FILES})
+OBJS = $(patsubst %.c, ${OBJS_DIR}%.o, ${SRCS})
 
-CFLAGS = -Wall -Wextra -Werror
+CFLAGS = -Wall -Wextra -Werror -g
+LIBFT = libft/libft.a
 
-HEADER = 
+HEADER = include/pipex.h libft/include/libft.h
 
-all: $(NAME)
+all: libft ${NAME}
+	@echo "${BOLD}${GREEN}${NAME} done!${END}"
 
-%.o: %.c $(HEADER)
-	cc $(CFLAGS) -c $< -o $@
+${NAME}: ${OBJS} ${LIBFT} 
+	cc ${OBJS} ${LIBFT} -o ${NAME}  
 
-$(NAME): $(OBJS)
-	cc $(CFLAGS) $(OBJS) -o $(NAME)
+libft:
+	${MAKE} -C ${LIBFT_DIR}
+	@echo "${BOLD}${GREEN}$@ done!${END}"
+
+${OBJS_DIR}%.o: %.c ${INCLUDES} Makefile
+	mkdir -p $(shell dirname $@)
+	cc ${CFLAGS} -c $< -o $@
 
 clean:
-	rm -f $(OBJS) $(BONUS_OBJS)
+	${MAKE} -C ${LIBFT_DIR} clean
+	rm -rf ${OBJS_DIR}
+	@echo "${BOLD}${RED}$@ done!${END}"
 
 fclean: clean
-	rm -f $(NAME)
+	${MAKE} -C ${LIBFT_DIR} fclean
+	rm -f ${NAME}
+	@echo "${BOLD}${RED}$@ done!${END}"
 
 re: fclean all
 
-bonus: $(BONUS_OBJS)
+RED = \033[31m
+GREEN = \033[32m
+BOLD = \033[1m
+END = \033[0m

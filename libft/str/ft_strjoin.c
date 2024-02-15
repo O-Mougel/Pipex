@@ -6,7 +6,7 @@
 /*   By: omougel <omougel@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/13 10:32:04 by omougel           #+#    #+#             */
-/*   Updated: 2023/11/27 11:22:24 by omougel          ###   ########.fr       */
+/*   Updated: 2024/02/15 17:10:07 by omougel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,9 +28,10 @@ char	*ft_strjoin(char const *s1, char const *s2)
 		dest[i] = s1[i];
 		i++;
 	}
-	while (s2 && s2[i - ft_strlen(s1)])
+	dest[i++] = '/';
+	while (s2 && s2[i - ft_strlen(s1) - 1])
 	{
-		dest[i] = s2[i - ft_strlen(s1)];
+		dest[i] = s2[i - ft_strlen(s1) - 1];
 		i++;
 	}
 	return (dest);
