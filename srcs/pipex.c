@@ -6,7 +6,7 @@
 /*   By: omougel <omougel@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 15:35:41 by omougel           #+#    #+#             */
-/*   Updated: 2024/02/15 17:15:20 by omougel          ###   ########.fr       */
+/*   Updated: 2024/02/16 15:26:22 by omougel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,43 +15,58 @@
 char	**split_envp(char **envp)
 {
 	char	**env;
-	char	*tmp;
 	size_t	i;
 
 	i = 0;
 	while (ft_strncmp("PATH=", envp[i], 5))
 		i++;
-	tmp = ft_strtrim(envp[i], "PATH=");
-	if (!tmp)
-		return (ft_putstr_fd("malloc failed\n", 2), NULL);
-	env = ft_split(tmp, ':');
+	env = ft_split(&envp[i][5], ':');
 	if (!env)
-		return (free(tmp), ft_putstr_fd("malloc failed\n", 2), NULL);
-	free(tmp);
+		return (ft_putstr_fd("malloc failed\n", 2), NULL);
 	return (env);
 }
 
-char	*ft_find_path(char *str, char **env)
+char	**ft_replacefront(char **cmd, char *path)
+{
+	free(cmd[0]);
+	cmd[0] = path;
+	return (cmd);
+}
+
+char	**free_everything(char *str, char **tab)
+{
+	free(str);
+	ft_free_arr(tab);
+	return (NULL);
+}
+
+char	**ft_find_path(char *str, char **env)
 {
 	size_t	i;
 	char	*tmp;
+	char	**cmd;
 
 	i = 0;
+	cmd = ft_split(str, ' ');
+	if (!cmd)
+		return (NULL);
 	while (env[i])
 	{
-		tmp = ft_strjoin(env[i], ft_split(str, ' ')[0]);
+		tmp = ft_strjoin(env[i], cmd[0]);
+		if (!tmp)
+			return (ft_free_arr(cmd), NULL);
 		if (!access(tmp, X_OK))
-			return (tmp);
+			return (ft_replacefront(cmd, tmp));
 		i++;
 	}
-	return (free(tmp), perror(str), NULL);
+	return (perror(str), free_everything(tmp, cmd));
 }
 
 t_list	**fill_pipex(char **argv, char **envp)
 {
 	char	**env;
 	t_list	**pipex;
-	char	*tmp;
+	char	**tmp;
 	size_t	i;
 
 	pipex = NULL;
@@ -66,6 +81,8 @@ t_list	**fill_pipex(char **argv, char **envp)
 	while (i < 4)
 	{
 		tmp = ft_find_path(argv[i++], env);
+		if (!tmp)
+
 		ft_lstadd_back(pipex, ft_lstnew(&tmp));
 	}
 	return (ft_free_arr(env), pipex);
