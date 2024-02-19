@@ -6,12 +6,15 @@
 /*   By: omougel <omougel@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 15:35:41 by omougel           #+#    #+#             */
-/*   Updated: 2024/02/19 14:22:36 by omougel          ###   ########.fr       */
+/*   Updated: 2024/02/19 17:54:14 by omougel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/pipex.h"
-#include <stdlib.h>
+#include <stdio.h>
+#include <unistd.h>
+#include <fcntl.h>
+#include <sys/wait.h>
 
 char	**split_envp(char **envp)
 {
@@ -29,9 +32,16 @@ char	**split_envp(char **envp)
 
 char	**ft_replacefront(char **cmd, char *path)
 {
+	size_t	i;
+
+	i = 0;
 	free(cmd[0]);
 	cmd[0] = path;
-	return (cmd);
+/*	while (cmd[i])
+		i++;
+	free(cmd[i]);
+	cmd[i] = NULL;
+*/	return (cmd);
 }
 
 //MAKE A FUNCTION TO TAKE AN INFINITE NUMBER OF ARGUMENT TO FREE THEM !!!
@@ -98,6 +108,56 @@ t_list	*fill_pipex(char **argv, char **envp)
 	return (ft_free_arr(env), pipex);
 }
 
+void	ft_do_the_pipe(char **argv, t_list *pipex, char **envp)
+{
+	int	fd[2];
+	int	pid1;
+	int	pid2;
+	int file_fd;
+
+	if (pipe(fd)== -1)
+		return ;
+	pid1 = fork();
+	if (pid1 < 0)
+	{
+		close(fd[0]);
+		close(fd[1]);
+		return ;
+	}
+	if (pid1 == 0)
+	{
+		file_fd = open(argv[1], O_RDONLY);
+		dup2(fd[1], STDOUT_FILENO);
+		dup2(file_fd, STDIN_FILENO);
+		close(file_fd);
+		close(fd[0]);
+		close(fd[1]);
+		execve(pipex->content[0], pipex->content, envp);
+	}
+	pipex = pipex->next;
+	pid2 = fork();
+	if (pid2 < 0)
+	{
+		close(fd[0]);
+		close(fd[1]);
+		return ;
+	}
+	if (pid2 == 0)
+	{
+		file_fd = open(argv[4], O_WRONLY);
+		dup2(fd[0], STDIN_FILENO);
+		dup2(file_fd, STDOUT_FILENO);
+		close(file_fd);
+		close(fd[0]);
+		close(fd[1]);
+		execve(pipex->content[0], pipex->content, envp);
+	}
+	close(fd[0]);
+	close(fd[1]);
+	waitpid(pid1, NULL, 0);
+	waitpid(pid2, NULL, 0);
+}
+
 int	main(int argc, char **argv, char **envp)
 {
 	t_list	*pipex;
@@ -107,6 +167,6 @@ int	main(int argc, char **argv, char **envp)
 	pipex = fill_pipex(argv, envp);
 	if (!pipex)
 		return (0);
-	ft_do_the_pipe(argv, pipex);
+	ft_do_the_pipe(argv, pipex, envp);
 	return (ft_lstclear(&pipex, ft_free_arr), 0);
 }
