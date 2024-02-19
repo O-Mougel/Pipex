@@ -6,11 +6,12 @@
 /*   By: omougel <omougel@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 15:35:41 by omougel           #+#    #+#             */
-/*   Updated: 2024/02/18 20:10:13 by omougel          ###   ########.fr       */
+/*   Updated: 2024/02/19 12:28:42 by omougel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/pipex.h"
+#include <stdlib.h>
 
 char	**split_envp(char **envp)
 {
@@ -40,6 +41,31 @@ char	**free_everything(char *str, char **tab)
 	ft_free_arr(tab);
 	return (NULL);
 }
+/*
+char	**ft_find_path(char *str, char **env)
+{
+	size_t	i;
+	char	*tmp;
+	char	**cmd;
+
+	i = 0;
+	cmd = ft_split(str, ' ');
+	while (env[i])
+	{
+		tmp = ft_strjoin(env[i], str);
+		if (!tmp)
+			return (NULL);
+		cmd = ft_split(tmp, ' ');
+		if (!cmd)
+			return (free(tmp), NULL);
+		free(tmp);
+		if (!access(cmd[0], X_OK))
+			return (cmd);
+		ft_free_arr(cmd);
+		i++;
+	}
+	return (perror(str), NULL);
+}*/
 
 char	**ft_find_path(char *str, char **env)
 {
@@ -57,7 +83,11 @@ char	**ft_find_path(char *str, char **env)
 		if (!tmp)
 			return (ft_free_arr(cmd), NULL);
 		if (!access(tmp, X_OK))
-			return (ft_replacefront(cmd, tmp));
+		{
+			ft_replacefront(cmd, tmp);
+			return (cmd);
+		}
+		free(tmp);
 		i++;
 	}
 	return (perror(str), free_everything(tmp, cmd));
