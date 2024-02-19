@@ -6,7 +6,7 @@
 /*   By: omougel <omougel@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 15:35:41 by omougel           #+#    #+#             */
-/*   Updated: 2024/02/19 12:28:42 by omougel          ###   ########.fr       */
+/*   Updated: 2024/02/19 14:22:36 by omougel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,39 +33,16 @@ char	**ft_replacefront(char **cmd, char *path)
 	cmd[0] = path;
 	return (cmd);
 }
+
 //MAKE A FUNCTION TO TAKE AN INFINITE NUMBER OF ARGUMENT TO FREE THEM !!!
 //TAKE FT_PRINTF AS A BASE TO DO THIS ESSENTIAL FUNCTION AND THEN ADD IT TO THE LIBFT 
+
 char	**free_everything(char *str, char **tab)
 {
 	free(str);
 	ft_free_arr(tab);
 	return (NULL);
 }
-/*
-char	**ft_find_path(char *str, char **env)
-{
-	size_t	i;
-	char	*tmp;
-	char	**cmd;
-
-	i = 0;
-	cmd = ft_split(str, ' ');
-	while (env[i])
-	{
-		tmp = ft_strjoin(env[i], str);
-		if (!tmp)
-			return (NULL);
-		cmd = ft_split(tmp, ' ');
-		if (!cmd)
-			return (free(tmp), NULL);
-		free(tmp);
-		if (!access(cmd[0], X_OK))
-			return (cmd);
-		ft_free_arr(cmd);
-		i++;
-	}
-	return (perror(str), NULL);
-}*/
 
 char	**ft_find_path(char *str, char **env)
 {
@@ -92,8 +69,6 @@ char	**ft_find_path(char *str, char **env)
 	}
 	return (perror(str), free_everything(tmp, cmd));
 }
-
-//CREATE FT_CHECK_FILES TO MAKE THIS FUNCTION LESS THAN 25 LINES
 
 t_list	*fill_pipex(char **argv, char **envp)
 {
@@ -125,13 +100,13 @@ t_list	*fill_pipex(char **argv, char **envp)
 
 int	main(int argc, char **argv, char **envp)
 {
-	t_list *pipex;
+	t_list	*pipex;
 
 	if (argc != 5)
- 		return (ft_putstr_fd("Invalid number of argument\n", 2), 0);
+		return (ft_putstr_fd("Invalid number of argument\n", 2), 0);
 	pipex = fill_pipex(argv, envp);
 	if (!pipex)
 		return (0);
-//	ft_do_the_pipe();
+	ft_do_the_pipe(argv, pipex);
 	return (ft_lstclear(&pipex, ft_free_arr), 0);
 }
