@@ -6,13 +6,14 @@
 /*   By: omougel <omougel@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/13 15:44:53 by omougel           #+#    #+#             */
-/*   Updated: 2024/02/15 16:41:15 by omougel          ###   ########.fr       */
+/*   Updated: 2024/02/18 19:46:59 by omougel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef LIBFT_H
 # define LIBFT_H
 
+//# include <cstddef>
 # include <stdlib.h>
 # include <unistd.h>
 # include <limits.h>
@@ -78,7 +79,7 @@ char	*ft_itoa(int n);
 //lst
 t_list	*ft_lstnew(char **content);
 void	ft_lstadd_front(t_list **lst, t_list *new_list);
-int		ft_lstsize(t_list *lst);
+size_t	ft_lstsize(t_list *lst);
 t_list	*ft_lstlast(t_list *lst);
 void	ft_lstadd_back(t_list **lst, t_list *new_list);
 void	ft_lstdelone(t_list *lst, void (*del)(char **));

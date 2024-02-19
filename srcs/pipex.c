@@ -6,7 +6,7 @@
 /*   By: omougel <omougel@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 15:35:41 by omougel           #+#    #+#             */
-/*   Updated: 2024/02/16 15:26:22 by omougel          ###   ########.fr       */
+/*   Updated: 2024/02/18 20:10:13 by omougel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ char	**split_envp(char **envp)
 		i++;
 	env = ft_split(&envp[i][5], ':');
 	if (!env)
-		return (ft_putstr_fd("malloc failed\n", 2), NULL);
+		return (NULL);
 	return (env);
 }
 
@@ -32,7 +32,8 @@ char	**ft_replacefront(char **cmd, char *path)
 	cmd[0] = path;
 	return (cmd);
 }
-
+//MAKE A FUNCTION TO TAKE AN INFINITE NUMBER OF ARGUMENT TO FREE THEM !!!
+//TAKE FT_PRINTF AS A BASE TO DO THIS ESSENTIAL FUNCTION AND THEN ADD IT TO THE LIBFT 
 char	**free_everything(char *str, char **tab)
 {
 	free(str);
@@ -62,10 +63,12 @@ char	**ft_find_path(char *str, char **env)
 	return (perror(str), free_everything(tmp, cmd));
 }
 
-t_list	**fill_pipex(char **argv, char **envp)
+//CREATE FT_CHECK_FILES TO MAKE THIS FUNCTION LESS THAN 25 LINES
+
+t_list	*fill_pipex(char **argv, char **envp)
 {
 	char	**env;
-	t_list	**pipex;
+	t_list	*pipex;
 	char	**tmp;
 	size_t	i;
 
@@ -77,29 +80,28 @@ t_list	**fill_pipex(char **argv, char **envp)
 		return (perror(argv[4]), NULL);
 	env = split_envp(envp);
 	if (!env)
-		return (ft_putstr_fd("malloc failed\n", 2), NULL);
+		return (NULL);
 	while (i < 4)
 	{
 		tmp = ft_find_path(argv[i++], env);
 		if (!tmp)
-
-		ft_lstadd_back(pipex, ft_lstnew(&tmp));
+			return (ft_free_arr(env), NULL);
+		ft_lstadd_back(&pipex, ft_lstnew(tmp));
+		if (ft_lstsize(pipex) != i - 2)
+			return (ft_free_arr(env), ft_free_arr(tmp), ft_lstclear(&pipex, ft_free_arr), NULL);
 	}
 	return (ft_free_arr(env), pipex);
 }
 
 int	main(int argc, char **argv, char **envp)
 {
-	t_list **pipex;
-	int i;
+	t_list *pipex;
 
-	i = 0;
 	if (argc != 5)
  		return (ft_putstr_fd("Invalid number of argument\n", 2), 0);
 	pipex = fill_pipex(argv, envp);
 	if (!pipex)
-		return (perror(NULL), 0);
-	while (envp[i])
-		ft_printf("%s\n",envp[i++]);
-	return (ft_lstclear(pipex, ft_free_arr), 0);
+		return (0);
+//	ft_do_the_pipe();
+	return (ft_lstclear(&pipex, ft_free_arr), 0);
 }
