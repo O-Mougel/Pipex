@@ -1,24 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pipex.h                                            :+:      :+:    :+:   */
+/*   ft_free_all.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: omougel <omougel@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/02/14 18:14:55 by omougel           #+#    #+#             */
-/*   Updated: 2024/02/21 14:49:43 by omougel          ###   ########.fr       */
+/*   Created: 2024/02/21 14:42:04 by omougel           #+#    #+#             */
+/*   Updated: 2024/02/21 14:45:21 by omougel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PIPEX_H
-# define PIPEX_H
+#include "../include/libft.h"
 
-# include "../libft/include/libft.h"
-# include <stdio.h>
-# include <fcntl.h>
-# include <sys/wait.h>
+void	ft_free_all(const char *str, ...)
+{
+	va_list	var;
+	size_t	i;
 
-t_list	*fill_pipex(char **argv, char **envp);
-void	ft_do_the_pipe(char **argv, t_list *pipex, char **envp);
-
-#endif // !PIPEX_H
+	i = 0;
+	if (!str)
+		return ;
+	va_start(var, str);
+	while (str[i])
+	{
+		if (str[i] == 's')
+			free(va_arg(var, char *));
+		if (str[i] == 'a')
+			ft_free_arr(va_arg(var, char **));
+		if (str[i] == 'l')
+			ft_lstclear(va_arg(var, t_list **), ft_free_arr);
+		i++;
+	}
+	va_end(var);
+}

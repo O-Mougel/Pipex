@@ -6,7 +6,7 @@
 #    By: omougel <omougel@student.42lyon.fr>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/11/13 16:45:04 by omougel           #+#    #+#              #
-#    Updated: 2024/02/15 16:11:19 by omougel          ###   ########.fr        #
+#    Updated: 2024/02/21 14:46:04 by omougel          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -31,6 +31,7 @@ SRCS = char/ft_isalnum.c\
 			 lst/ft_lstsize.c\
 			 mem/ft_bzero.c\
 			 mem/ft_calloc.c\
+			 mem/ft_free_all.c\
 			 mem/ft_memchr.c\
 			 mem/ft_memcmp.c\
 			 mem/ft_memcpy.c\

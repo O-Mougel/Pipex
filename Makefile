@@ -6,7 +6,7 @@
 #    By: omougel <omougel@student.42lyon.fr>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/01/15 17:02:16 by omougel           #+#    #+#              #
-#    Updated: 2024/02/19 11:30:47 by omougel          ###   ########.fr        #
+#    Updated: 2024/02/21 14:51:02 by omougel          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,9 @@
 
 NAME = pipex
 
-SRCS_FILES = pipex.c
+SRCS_FILES = pipex.c\
+			 do_the_pipe.c\
+			 fill_pipex.c
 
 INCLUDES = include/pipex.h
 
