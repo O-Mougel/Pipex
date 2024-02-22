@@ -6,7 +6,7 @@
 /*   By: omougel <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/07 10:40:15 by omougel           #+#    #+#             */
-/*   Updated: 2024/02/21 10:11:26 by omougel          ###   ########.fr       */
+/*   Updated: 2023/11/21 11:26:11 by omougel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,6 @@ size_t	ft_strlen(const char *s)
 	size_t	i;
 
 	i = 0;
-	if (!s)
-		return (0);
 	while (s[i])
 		i++;
 	return (i);

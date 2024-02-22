@@ -6,7 +6,11 @@
 /*   By: omougel <omougel@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/13 15:44:53 by omougel           #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2024/02/22 17:51:54 by omougel          ###   ########.fr       */
+=======
+/*   Updated: 2024/02/18 19:46:59 by omougel          ###   ########.fr       */
+>>>>>>> parent of 9937f64 (qiebgri q)
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +21,6 @@
 # include <stdlib.h>
 # include <unistd.h>
 # include <limits.h>
-# include <stdarg.h>
 
 typedef struct s_list
 {
