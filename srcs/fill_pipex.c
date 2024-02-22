@@ -6,7 +6,7 @@
 /*   By: omougel <omougel@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 11:27:36 by omougel           #+#    #+#             */
-/*   Updated: 2024/02/21 11:28:20 by omougel          ###   ########.fr       */
+/*   Updated: 2024/02/22 19:08:24 by omougel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,14 +52,11 @@ char	**ft_find_path(char *str, char **env)
 		if (!tmp)
 			return (ft_free_arr(cmd), NULL);
 		if (!access(tmp, X_OK))
-		{
-			ft_replacefront(cmd, tmp);
-			return (cmd);
-		}
+			return (ft_replacefront(cmd, tmp));
 		free(tmp);
 		i++;
 	}
-	return (perror(str), ft_free_all("sa", tmp, cmd), NULL);
+	return (perror(str), free(tmp), ft_replacefront(cmd, NULL));
 }
 
 t_list	*fill_pipex(char **argv, char **envp)
@@ -71,10 +68,6 @@ t_list	*fill_pipex(char **argv, char **envp)
 
 	pipex = NULL;
 	i = 2;
-	if (access(argv[1], R_OK))
-		return (perror(argv[1]), NULL);
-	if (access(argv[4], W_OK))
-		return (perror(argv[4]), NULL);
 	env = split_envp(envp);
 	if (!env)
 		return (NULL);
@@ -82,7 +75,9 @@ t_list	*fill_pipex(char **argv, char **envp)
 	{
 		tmp = ft_find_path(argv[i++], env);
 		if (!tmp)
-			return (ft_free_arr(env), NULL);
+			return (ft_free_arr(env), ft_lstclear(&pipex, ft_free_arr), NULL);
+		if (!tmp[0])
+			ft_free_arr(tmp);
 		ft_lstadd_back(&pipex, ft_lstnew(tmp));
 		if (ft_lstsize(pipex) != i - 2)
 			return (ft_free_all("aal", env, tmp, pipex), NULL);
