@@ -7,7 +7,11 @@
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/11/13 16:45:04 by omougel           #+#    #+#              #
 <<<<<<< HEAD
+<<<<<<< HEAD
 #    Updated: 2024/02/22 17:52:03 by omougel          ###   ########.fr        #
+=======
+#    Updated: 2024/02/15 16:11:19 by omougel          ###   ########.fr        #
+>>>>>>> parent of 9937f64 (qiebgri q)
 =======
 #    Updated: 2024/02/15 16:11:19 by omougel          ###   ########.fr        #
 >>>>>>> parent of 9937f64 (qiebgri q)
