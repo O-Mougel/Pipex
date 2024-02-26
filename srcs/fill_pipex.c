@@ -6,11 +6,12 @@
 /*   By: omougel <omougel@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 11:27:36 by omougel           #+#    #+#             */
-/*   Updated: 2024/02/22 19:08:24 by omougel          ###   ########.fr       */
+/*   Updated: 2024/02/26 13:04:46 by omougel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/pipex.h"
+#include <stdlib.h>
 
 char	**split_envp(char **envp)
 {
@@ -59,6 +60,12 @@ char	**ft_find_path(char *str, char **env)
 	return (perror(str), free(tmp), ft_replacefront(cmd, NULL));
 }
 
+void	free2arr(char **arr1, char **arr2)
+{
+	ft_free_arr(arr1);
+	ft_free_arr(arr2);
+}
+
 t_list	*fill_pipex(char **argv, char **envp)
 {
 	char	**env;
@@ -80,7 +87,7 @@ t_list	*fill_pipex(char **argv, char **envp)
 			ft_free_arr(tmp);
 		ft_lstadd_back(&pipex, ft_lstnew(tmp));
 		if (ft_lstsize(pipex) != i - 2)
-			return (ft_free_all("aal", env, tmp, pipex), NULL);
+			return (free2arr(env, tmp), free(pipex), NULL);
 	}
 	return (ft_free_arr(env), pipex);
 }
