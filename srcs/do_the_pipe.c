@@ -6,7 +6,7 @@
 /*   By: omougel <omougel@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 14:38:45 by omougel           #+#    #+#             */
-/*   Updated: 2024/02/26 14:35:56 by omougel          ###   ########.fr       */
+/*   Updated: 2024/02/26 14:49:56 by omougel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ void	ft_exec_pipe(int fd_in, int fd_out, char **cmd, char **envp)
 	ft_exit();
 }
 
-void	ft_do_the_pipe(char **argv, t_list *pipex, int *fd, char **envp)
+int	ft_do_the_pipe(char **argv, t_list *pipex, int *fd, char **envp)
 {
 	int	pid1;
 	int	pid2;
@@ -119,7 +119,9 @@ void	ft_do_the_pipe(char **argv, t_list *pipex, int *fd, char **envp)
 	close(fd[0]);
 	close(fd[1]);
 	if (pid1 >= 0)
+	{
 		waitpid(pid1, &err1, 0);
+
 	if (pid2 >= 0)
 		waitpid(pid2, &err2, 0);
 }
