@@ -6,7 +6,7 @@
 /*   By: omougel <omougel@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/13 15:44:53 by omougel           #+#    #+#             */
-/*   Updated: 2024/02/22 17:51:54 by omougel          ###   ########.fr       */
+/*   Updated: 2024/02/23 10:17:48 by omougel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@
 # include <stdlib.h>
 # include <unistd.h>
 # include <limits.h>
-# include <stdarg.h>
 
 typedef struct s_list
 {
