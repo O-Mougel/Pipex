@@ -6,7 +6,7 @@
 /*   By: omougel <omougel@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 15:35:41 by omougel           #+#    #+#             */
-/*   Updated: 2024/02/26 11:56:31 by omougel          ###   ########.fr       */
+/*   Updated: 2024/02/26 12:21:14 by omougel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -137,7 +137,7 @@ void	ft_do_the_pipe(char **argv, t_list *pipex, char **envp)
 	}
 	if (pid2 == 0)
 	{
-		file_fd = open(argv[4], 1101);
+		file_fd = open(argv[4], O_CREAT|O_WRONLY|O_TRUNC);
 		dup2(fd[0], STDIN_FILENO);
 		dup2(file_fd, STDOUT_FILENO);
 		close(file_fd);

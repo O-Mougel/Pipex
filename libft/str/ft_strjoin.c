@@ -6,7 +6,7 @@
 /*   By: omougel <omougel@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/13 10:32:04 by omougel           #+#    #+#             */
-/*   Updated: 2024/02/23 10:25:00 by omougel          ###   ########.fr       */
+/*   Updated: 2024/02/26 12:06:47 by omougel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	i = 0;
 	if (!s1 || !s2)
 		return (NULL);
-	dest = ft_calloc(ft_strlen(s1) + ft_strlen(s2) + 2, sizeof(char));
+	dest = ft_calloc(ft_strlen(s1) + ft_strlen(s2) + 1, sizeof(char));
 	if (!dest)
 		return (NULL);
 	while (s1 && s1[i])
