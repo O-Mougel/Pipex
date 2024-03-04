@@ -6,65 +6,11 @@
 /*   By: omougel <omougel@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 14:38:45 by omougel           #+#    #+#             */
-/*   Updated: 2024/03/04 09:41:27 by omougel          ###   ########.fr       */
+/*   Updated: 2024/03/04 10:18:09 by omougel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/pipex.h"
-#include <errno.h>
-#include <fcntl.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <unistd.h>
-
-#define O_FILE_2 1101 //O_WRONLY O_TRUNC O_CREATE
-
-void	ft_close_all(int fd1, int fd2)
-{
-	close(fd1);
-	close(fd2);
-}
-/*
-void	exec_first_pipe(char *file1, int *fd, char **cmd, char **envp)
-{
-	int	file_fd;
-
-	file_fd = open(file1, O_RDONLY);
-	if (file_fd < 0)
-		return ;
-	if (dup2(fd[1], STDOUT_FILENO) < 0)
-		return ;
-	if (dup2(file_fd, STDIN_FILENO) < 0)
-		return ;
-	close(file_fd);
-	close(fd[0]);
-	close(fd[1]);
-	execve(cmd[0], cmd, envp);
-}
-
-void	exec_second_pipe(char *file2, int *fd, char **cmd, char **envp)
-{
-	int	file_fd;
-
-	file_fd = open(file2, O_WRONLY|O_TRUNC|O_CREAT);
-	if (file_fd < 0)
-		return ;
-	if (dup2(file_fd, STDOUT_FILENO) < 0)
-		return ;
-	if (dup2(fd[0], STDIN_FILENO) < 0)
-		return ;
-	close(file_fd);
-	close(fd[0]);
-	close(fd[1]);
-	execve(cmd[0], cmd, envp);
-}
-*/
-
-void	ft_exit(void)
-{
-	perror(NULL);
-	exit(1);
-}
 
 void	ft_exec_pipe(int fd_in, int fd_out, char **cmd, char **envp)
 {
@@ -80,36 +26,42 @@ void	ft_exec_pipe(int fd_in, int fd_out, char **cmd, char **envp)
 	ft_exit();
 }
 
+void	first_pipe(int *fd, char *file1, char **cmd, char **envp)
+{
+	close(fd[0]);
+	if (!access(file1, R_OK) && cmd)
+		ft_exec_pipe(open(file1, O_RDONLY), fd[1], cmd, envp);
+	close(fd[1]);
+	ft_exit();
+}
+
+void	second_pipe(int *fd, char *file2, char **cmd, char **envp)
+{
+	close(fd[1]);
+	if (!access(file2, W_OK) && cmd)
+		ft_exec_pipe(fd[0], open(file2, 577), cmd, envp);
+	close(fd[1]);
+	ft_exit();
+}
+
 int	ft_do_the_pipe(char **argv, t_list *pipex, int *fd, char **envp)
 {
 	int	pid1;
 	int	pid2;
-	int err1;
-	int err2;
+	int	err1;
+	int	err2;
 
 	pid1 = fork();
 	if (pid1 < 0)
-		return (perror(NULL), ft_close_all(fd[0], fd[1]), 1);
+		return (perror(NULL), ft_close_all(fd[0], fd[1]), errno);
 	if (pid1 == 0)
-	{
-		close(fd[0]);
-		if (!access(argv[1], R_OK) && pipex->content)
-			ft_exec_pipe(open(argv[1], O_RDONLY), fd[1], pipex->content, envp);
-		close(fd[1]);
-		ft_exit();
-	}
+		first_pipe(fd, argv[1], pipex->content, envp);
 	pipex = pipex->next;
 	pid2 = fork();
 	if (pid2 < 0)
-		return (perror(NULL), ft_close_all(fd[0], fd[1]), 1);
+		return (perror(NULL), ft_close_all(fd[0], fd[1]), errno);
 	if (pid2 == 0)
-	{
-		close(fd[1]);
-		if (!access(argv[4], W_OK) && pipex->content)
-			ft_exec_pipe(fd[0], open(argv[4], 577), pipex->content, envp);
-		close(fd[0]);
-		ft_exit();
-	}
+		second_pipe(fd, argv[4], pipex->content, envp);
 	ft_close_all(fd[0], fd[1]);
 	waitpid(pid1, &err1, 0);
 	waitpid(pid2, &err2, 0);
