@@ -6,7 +6,7 @@
 #    By: omougel <omougel@student.42lyon.fr>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/01/15 17:02:16 by omougel           #+#    #+#              #
-#    Updated: 2024/02/21 14:51:02 by omougel          ###   ########.fr        #
+#    Updated: 2024/03/04 09:49:19 by omougel          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,7 +27,7 @@ OBJS_DIR = .objects/
 SRCS = $(addprefix ${SRCS_DIR},${SRCS_FILES})
 OBJS = $(patsubst %.c, ${OBJS_DIR}%.o, ${SRCS})
 
-CFLAGS = -Wall -Wextra -Werror -g# -fsanitize=address
+CFLAGS = -Wall -Wextra -Werror -g -fsanitize=address
 LIBFT = libft/libft.a
 
 HEADER = include/pipex.h libft/include/libft.h
@@ -36,7 +36,7 @@ all: libft ${NAME}
 	@echo "${BOLD}${GREEN}${NAME} done!${END}"
 
 ${NAME}: ${OBJS} ${LIBFT} 
-	cc ${OBJS} ${LIBFT} -o ${NAME}  
+	cc ${CFLAGS} ${OBJS} ${LIBFT} -o ${NAME}  
 
 libft:
 	${MAKE} -C ${LIBFT_DIR}

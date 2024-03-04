@@ -6,7 +6,7 @@
 /*   By: omougel <omougel@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 14:38:45 by omougel           #+#    #+#             */
-/*   Updated: 2024/02/26 14:49:56 by omougel          ###   ########.fr       */
+/*   Updated: 2024/03/04 09:41:27 by omougel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ void	exec_second_pipe(char *file2, int *fd, char **cmd, char **envp)
 void	ft_exit(void)
 {
 	perror(NULL);
-	exit(errno);
+	exit(1);
 }
 
 void	ft_exec_pipe(int fd_in, int fd_out, char **cmd, char **envp)
@@ -87,41 +87,31 @@ int	ft_do_the_pipe(char **argv, t_list *pipex, int *fd, char **envp)
 	int err1;
 	int err2;
 
-	pid1 = -1;
-	pid2 = -1;
-	err1 = -1;
-	err2 = -1;
-	if (!access(argv[1], R_OK) && pipex->content)
+	pid1 = fork();
+	if (pid1 < 0)
+		return (perror(NULL), ft_close_all(fd[0], fd[1]), 1);
+	if (pid1 == 0)
 	{
-		pid1 = fork();
-		if (pid1 < 0)
-			return (perror(NULL), ft_close_all(fd[0], fd[1]));
-		if (pid1 == 0)
-		{
-		//	exec_first_pipe(argv[1], fd, pipex->content, envp);
-			close(fd[0]);
+		close(fd[0]);
+		if (!access(argv[1], R_OK) && pipex->content)
 			ft_exec_pipe(open(argv[1], O_RDONLY), fd[1], pipex->content, envp);
-		}
+		close(fd[1]);
+		ft_exit();
 	}
 	pipex = pipex->next;
-	if (!access(argv[4], W_OK) && pipex->content)
+	pid2 = fork();
+	if (pid2 < 0)
+		return (perror(NULL), ft_close_all(fd[0], fd[1]), 1);
+	if (pid2 == 0)
 	{
-		pid2 = fork();
-		if (pid2 < 0)
-			return (ft_close_all(fd[0], fd[1]));
-		if (pid2 == 0)
-		{
-		//	exec_second_pipe(argv[4], fd, pipex->content, envp);
-			close(fd[1]);
+		close(fd[1]);
+		if (!access(argv[4], W_OK) && pipex->content)
 			ft_exec_pipe(fd[0], open(argv[4], 577), pipex->content, envp);
-		}
+		close(fd[0]);
+		ft_exit();
 	}
-	close(fd[0]);
-	close(fd[1]);
-	if (pid1 >= 0)
-	{
-		waitpid(pid1, &err1, 0);
-
-	if (pid2 >= 0)
-		waitpid(pid2, &err2, 0);
+	ft_close_all(fd[0], fd[1]);
+	waitpid(pid1, &err1, 0);
+	waitpid(pid2, &err2, 0);
+	return (err1 || err2);
 }

@@ -6,12 +6,11 @@
 /*   By: omougel <omougel@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 11:27:36 by omougel           #+#    #+#             */
-/*   Updated: 2024/02/26 13:04:46 by omougel          ###   ########.fr       */
+/*   Updated: 2024/03/04 09:21:34 by omougel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/pipex.h"
-#include <stdlib.h>
 
 char	**split_envp(char **envp)
 {
