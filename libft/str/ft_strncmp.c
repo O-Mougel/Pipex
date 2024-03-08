@@ -6,7 +6,7 @@
 /*   By: omougel <omougel@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/08 10:42:28 by omougel           #+#    #+#             */
-/*   Updated: 2023/11/16 16:18:32 by omougel          ###   ########.fr       */
+/*   Updated: 2024/03/08 15:57:47 by omougel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@ int	ft_strncmp(const char *s1, const char *s2, size_t n)
 	unsigned const char	*ptr2;
 	size_t				i;
 
+	if (!s1 || !s2)
+		return (-1);
 	ptr1 = (unsigned const char *)s1;
 	ptr2 = (unsigned const char *)s2;
 	i = 0;
