@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: omougel <omougel@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/02/15 15:35:41 by omougel           #+#    #+#             */
-/*   Updated: 2024/03/04 09:43:45 by omougel          ###   ########.fr       */
+/*   Created: 2024/03/06 10:09:00 by omougel           #+#    #+#             */
+/*   Updated: 2024/03/08 14:54:25 by omougel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,19 +14,18 @@
 
 int	main(int argc, char **argv, char **envp)
 {
-	t_list	*pipex;
-	int		fd[2];
-	int		success;
+	int	i;
+	int	fd_in;
+	int	pid;
+	int	status;
 
+	i = 0;
 	if (argc != 5)
-		return (ft_putstr_fd("Invalid number of argument\n", 2), 1);
-	if (pipe(fd) == -1)
-		return (perror(NULL), 1);
-	pipex = fill_pipex(argv, envp);
-	if (!pipex)
-		return (1);
-	success = ft_do_the_pipe(argv, pipex, fd, envp);
-	if (success)
-		return (ft_lstclear(&pipex, ft_free_arr), 1);
-	return (ft_lstclear(&pipex, ft_free_arr), 0);
+		return (ft_putstr_fd("Invalid number of arguments", 2), 1);
+	if (!envp || !*envp)
+		return (ft_putstr_fd("No environement set", 2), 1);
+	pipex(&fd_in, argv, envp, argv[i + 2]);
+	pid = last_child(fd_in, argv, envp, argc);
+	status = wait_all_child(pid, i);
+	return (status);
 }

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   fill_pipex.c                                       :+:      :+:    :+:   */
+/*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: omougel <omougel@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/02/21 11:27:36 by omougel           #+#    #+#             */
-/*   Updated: 2024/03/04 09:21:34 by omougel          ###   ########.fr       */
+/*   Created: 2024/03/07 13:22:58 by omougel           #+#    #+#             */
+/*   Updated: 2024/03/07 16:38:10 by omougel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@ char	**split_envp(char **envp)
 	size_t	i;
 
 	i = 0;
+	if (!envp)
+		return (NULL);
 	while (ft_strncmp("PATH=", envp[i], 5))
 		i++;
 	env = ft_split(&envp[i][5], ':');
@@ -28,9 +30,6 @@ char	**split_envp(char **envp)
 
 char	**ft_replacefront(char **cmd, char *path)
 {
-	size_t	i;
-
-	i = 0;
 	free(cmd[0]);
 	cmd[0] = path;
 	return (cmd);
@@ -56,37 +55,20 @@ char	**ft_find_path(char *str, char **env)
 		free(tmp);
 		i++;
 	}
-	return (perror(str), free(tmp), ft_replacefront(cmd, NULL));
+	ft_free_arr(cmd);
+	return (perror(str), NULL);
 }
 
-void	free2arr(char **arr1, char **arr2)
-{
-	ft_free_arr(arr1);
-	ft_free_arr(arr2);
-}
-
-t_list	*fill_pipex(char **argv, char **envp)
+char	**find_command(char *str, char **envp)
 {
 	char	**env;
-	t_list	*pipex;
-	char	**tmp;
-	size_t	i;
+	char	**cmd;
 
-	pipex = NULL;
-	i = 2;
 	env = split_envp(envp);
 	if (!env)
 		return (NULL);
-	while (i < 4)
-	{
-		tmp = ft_find_path(argv[i++], env);
-		if (!tmp)
-			return (ft_free_arr(env), ft_lstclear(&pipex, ft_free_arr), NULL);
-		if (!tmp[0])
-			ft_free_arr(tmp);
-		ft_lstadd_back(&pipex, ft_lstnew(tmp));
-		if (ft_lstsize(pipex) != i - 2)
-			return (free2arr(env, tmp), free(pipex), NULL);
-	}
-	return (ft_free_arr(env), pipex);
+	cmd = ft_find_path(str, env);
+	if (!cmd)
+		return (ft_free_arr(env), NULL);
+	return (ft_free_arr(env), cmd);
 }

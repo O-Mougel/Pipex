@@ -1,25 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pipe_utils.c                                       :+:      :+:    :+:   */
+/*   pipex_bonus.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: omougel <omougel@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/03/04 10:16:32 by omougel           #+#    #+#             */
-/*   Updated: 2024/03/04 10:18:11 by omougel          ###   ########.fr       */
+/*   Created: 2024/03/06 10:09:00 by omougel           #+#    #+#             */
+/*   Updated: 2024/03/08 14:45:24 by omougel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/pipex.h"
 
-void	ft_close_all(int fd1, int fd2)
+int	main(int argc, char **argv, char **envp)
 {
-	close(fd1);
-	close(fd2);
-}
+	int	i;
+	int	fd_in;
+	int	pid;
+	int	status;
 
-void	ft_exit(void)
-{
-	perror(NULL);
-	exit(errno);
+	i = 0;
+	if (argc < 5)
+		return (ft_putstr_fd("Invalid number of arguments", 2), 1);
+	if (!envp || !*envp)
+		return (ft_putstr_fd("No environement set", 2), 1);
+	while (i++ < argc - 4)
+		pipex(&fd_in, argv, envp, argv[i + 2]);
+	pid = last_child(fd_in, argv, envp, argc);
+	status = wait_all_child(pid, i);
+	return (status);
 }
