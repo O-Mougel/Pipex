@@ -6,7 +6,7 @@
 /*   By: omougel <omougel@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 13:26:09 by omougel           #+#    #+#             */
-/*   Updated: 2024/03/08 14:51:55 by omougel          ###   ########.fr       */
+/*   Updated: 2024/03/08 14:58:09 by omougel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ void	exec_command(char *str, int fd_in, int fd_out, char **envp)
 		close(fd_out);
 		execve(cmd[0], cmd, envp);
 	}
-	else 
+	else
 	{
 		close(fd_in);
 		close(fd_out);
