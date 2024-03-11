@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parsing.c                                          :+:      :+:    :+:   */
+/*   parsing_bonus.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: omougel <omougel@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 13:22:58 by omougel           #+#    #+#             */
-/*   Updated: 2024/03/07 16:38:10 by omougel          ###   ########.fr       */
+/*   Updated: 2024/03/11 06:21:28 by omougel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,10 @@ char	**split_envp(char **envp)
 	i = 0;
 	if (!envp)
 		return (NULL);
-	while (ft_strncmp("PATH=", envp[i], 5))
+	while (envp[i] && ft_strncmp("PATH=", envp[i], 5))
 		i++;
+	if (!envp[i])
+		return (ft_putstr_fd("No PATH in environement\n", 2), NULL);
 	env = ft_split(&envp[i][5], ':');
 	if (!env)
 		return (NULL);
@@ -59,6 +61,19 @@ char	**ft_find_path(char *str, char **env)
 	return (perror(str), NULL);
 }
 
+char	**ft_nopath(char *str)
+{
+	char	**cmd;
+
+	cmd = ft_split(str, ' ');
+	if (!cmd)
+		return (NULL);
+	if (!access(cmd[0], X_OK))
+		return (cmd);
+	ft_free_arr(cmd);
+	return (NULL);
+}
+
 char	**find_command(char *str, char **envp)
 {
 	char	**env;
@@ -66,7 +81,7 @@ char	**find_command(char *str, char **envp)
 
 	env = split_envp(envp);
 	if (!env)
-		return (NULL);
+		return (ft_nopath(str));
 	cmd = ft_find_path(str, env);
 	if (!cmd)
 		return (ft_free_arr(env), NULL);

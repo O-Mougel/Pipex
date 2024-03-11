@@ -6,7 +6,7 @@
 #    By: omougel <omougel@student.42lyon.fr>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/01/15 17:02:16 by omougel           #+#    #+#              #
-#    Updated: 2024/03/08 13:35:56 by omougel          ###   ########.fr        #
+#    Updated: 2024/03/11 06:22:23 by omougel          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -69,7 +69,7 @@ fclean: clean
 
 re: fclean all
 
-bonus: ${BONUS_OBJS} ${LIBFT}
+bonus: libft ${BONUS_OBJS} ${LIBFT}
 	cc ${CFLAGS} ${BONUS_OBJS} ${LIBFT} -o ${BONUS_NAME}
 	@echo "${BOLD}${GREEN}$@ done!${END}"
 
