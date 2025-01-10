@@ -6,7 +6,7 @@
 /*   By: omougel <omougel@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 13:26:09 by omougel           #+#    #+#             */
-/*   Updated: 2024/03/08 14:58:09 by omougel          ###   ########.fr       */
+/*   Updated: 2025/01/10 22:40:44 by omougel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ int	last_child(int fd_in, char **argv, char **envp, int argc)
 	int	fd_out;
 	int	pid;
 
-	fd_out = open(argv[argc - 1], 577, 0644);
+	fd_out = open(argv[argc - 1], O_CREAT | O_WRONLY | O_TRUNC, 0644);
 	pid = -1;
 	if (fd_out > 0)
 	{
